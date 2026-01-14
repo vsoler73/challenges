@@ -10,10 +10,11 @@ class bitstream
 public:
     bitstream();
     void init_hex(const std::string& n);
-    std::string to_base64() const{
-        return std::string();
-    };
+    std::string to_base64() const;
     std::string to_hex()const;
+    void init_random(int n);
+
+    bitstream operator +(const bitstream&)const;
 private:
     std::vector<uint8_t> data;
 };
