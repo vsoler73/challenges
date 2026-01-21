@@ -10,6 +10,7 @@ class bitstream
 public:
     bitstream();
     void init_hex(const std::string& n);
+    void init_base64(const std::string& n);
     std::string to_base64() const;
     std::string to_hex()const;
     void init_random(int n);

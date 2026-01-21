@@ -1,5 +1,6 @@
 #include "bitstream.h"
 #include <iostream>
+#include <map>
 
 bitstream::bitstream() {}
 
@@ -24,6 +25,39 @@ void bitstream::init_hex(const std::string& n){
             std::cerr<<"bad caractre in hex string : "<<(int)n[i+1]<<"\n" ;
         data.push_back(v2+v1*16);
 
+    }
+}
+
+void bitstream::init_base64(const std::string& m){
+    data.clear();
+    std::string Lbase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    std::map <char, int> index64;
+    for (int i=0; i<Lbase64.size(); i++)
+        index64[Lbase64[i]]=i;
+    std::string n=m;
+    while (n.back()=='=')
+        n.pop_back();
+    for (uint i=0; i<n.size()/4; i++){
+        int v1=index64[n[4*i]];
+        int v2=index64[n[4*i+1]];
+        int v3=index64[n[4*i+2]];
+        int v4=index64[n[4*i+3]];
+        uint32_t result=(v1<<18)+(v2<<12)+(v3<<6)+v4;
+        data.push_back(result>>16);
+        data.push_back(result>>8);
+        data.push_back(result);
+    }
+    if (n.size()%4==1)
+        throw std::runtime_error("number of char incorect");
+    if (n.size()%4==2)
+        data.push_back(((index64[n.back()]<<0)+(index64[n[n.size()-2]]<<6))>>4);
+    if (n.size()%4==3){
+        int v1=index64[n[n.size()-3]];
+        int v2=index64[n[n.size()-2]];
+        int v3=index64[n[n.size()-1]];
+        uint32_t result=(v1<<12)+(v2<<6)+(v3<<0);
+        data.push_back(result>>10);
+        data.push_back(result>>2);
     }
 }
 
