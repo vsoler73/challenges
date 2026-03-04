@@ -16,6 +16,9 @@ public:
     void init_random(int n);
 
     bitstream operator +(const bitstream&)const;
+    bitstream operator ^(const bitstream&)const;
+    bool operator ==(const bitstream&)const;
+
 private:
     std::vector<uint8_t> data;
 };

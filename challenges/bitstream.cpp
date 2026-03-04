@@ -121,36 +121,26 @@ bitstream bitstream::operator +(const bitstream& a)const{
     return result;
 }
 
+bitstream bitstream::operator ^(const bitstream& a)const{
 
+    bitstream result=*this;
+    if (result.data.size()==a.data.size()){
+        for (int i=0; i<data.size(); i+=1)
+            result.data[i]^=a.data[i];
 
+    }
+    else
+        std::cerr<<__PRETTY_FUNCTION__<<": error \n";
+    return result;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+bool bitstream::operator ==(const bitstream& a)const{
+    if (data.size()==a.data.size()){
+        for (int i=0; i<data.size(); i+=1)
+            if (data[i]!=a.data[i])
+                return false;
+        return true;
+    }
+    return false;
+}
 
