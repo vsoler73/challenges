@@ -114,6 +114,14 @@ std::string bitstream::to_base64() const{
     return result64;
 }
 
+std::string bitstream::to_string() const{
+    std::string result;
+    for(int i=0; i<data.size(); i++){
+        result.push_back(data[i]);
+    }
+    return result;
+}
+
 bitstream bitstream::operator +(const bitstream& a)const{
     bitstream result=*this;
     for (uint i=0; i<a.data.size(); i++)
@@ -131,6 +139,15 @@ bitstream bitstream::operator ^(const bitstream& a)const{
     }
     else
         std::cerr<<__PRETTY_FUNCTION__<<": error \n";
+    return result;
+}
+
+bitstream bitstream::operator ^(uint8_t a)const{
+
+    bitstream result=*this;
+    for(int i=0; i<data.size(); i++){
+        result.data[i]^=a;
+    }
     return result;
 }
 
